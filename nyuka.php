@@ -14,26 +14,40 @@
  * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
  * 一致した場合はif文の中に入る。
  */
-if (/* ①.の処理を行う */) {
+//if (/* ①.の処理を行う */) {
 	//②セッションを開始する
-}
+//}
 
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (/* ③の処理を書く */){
+//if (/* ③の処理を書く */){
 	//④SESSIONの「error2」に「ログインしてください」と設定する。
 	//⑤ログイン画面へ遷移する。
-}
+//}
 
 //⑥データベースへ接続し、接続情報を変数に保存する
+$dbname = "zaiko2021_yse";
+$host = "localhost";
+$charset = "UTF8";
+$user =  "zaiko2021_yse";
+$password = "2021zaiko";
+$option = [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION];
 
 //⑦データベースで使用する文字コードを「UTF8」にする
-
+$dsn = "mysql:dbname={$dbname};host={$host};charset={$charset}";
+try
+{
+	$pdo = new PDO($dsn,$user,$password,$option);
+	// echo "SUCCESS";
+}catch(PDOException $e)
+{
+	die($e->getMessage());
+}
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
-if(/* ⑧の処理を行う */){
+//if(/* ⑧の処理を行う */){
 	//⑨SESSIONの「success」に「入荷する商品が選択されていません」と設定する。
 	//⑩在庫一覧画面へ遷移する。
-}
+//}
 
 function getId($id,$con){
 	/* 
@@ -77,9 +91,9 @@ function getId($id,$con){
 			 * ⑬SESSIONの「error」にメッセージが設定されているかを判定する。
 			 * 設定されていた場合はif文の中に入る。
 			 */ 
-			if(/* ⑬の処理を書く */){
+			//if(/* ⑬の処理を書く */){
 				//⑭SESSIONの「error」の中身を表示する。
-			}
+			//}
 			?>
 			</div>
 			<div id="center">
