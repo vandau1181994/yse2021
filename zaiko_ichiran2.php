@@ -105,30 +105,23 @@ $statement = $pdo->query($sql);
 					<tbody>
 						<?php
 						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
-						while($books= $statement->fetch(PDO::FETCH_ASSOC)){
+						while($books= $statement->fetch(PDO::FETCH_ASSOC)) :?>
+
 							//⑪extract変数を使用し、1レコードのデータを渡す。
-							$book = array(
-								"id" => $books["id"],
-								"title" => $books["title"],
-								"author" => $books["author"],
-								"date" => $books["salesDate"],
-								"price" => $books["price"],
-								"stock" => $books["stock"]
-							);
-							extract($book);
+						<tr id = "book">
 
-							echo "<tr id='book'>";
-							echo "<td id='check'><input type='checkbox' name='books[]'value=".$id."></td>";
-							echo "<td id='id'>".$id."</td>";
-							echo "<td id='title'>".$title."</td>";
-							echo "<td id='author'>".$author."</td>";
-							echo "<td id='date'>".$date."</td>";
-							echo "<td id='price'>".$price."</td>";
-							echo "<td id='stock'>".$stock."</td>";
+							<tr id='book'>";
+							<td id='check'><input type='checkbox' name='books[]'value="<?=$book['id']?>"></td>
+							<td id='id'><?= $book['id']?></td>";
+							<td id='title'><?$book['title']?></td>";
+							<td id='author'><?=$book['author']?></td>
+							<td id='date'><?=$book['salesDate']?></td>;
+							<td id='price'><?=$book['price']?></td>;
+							<td id='stock'><?=$book['stock']?></td>;
 
-							echo "</tr>";
-						}
-						?>
+						</tr>
+						
+						<?php endwhile ?>
 					</tbody>
 				</table>
 			</div>
