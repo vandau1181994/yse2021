@@ -14,16 +14,17 @@
  * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
  * 一致した場合はif文の中に入る。
  */
-if (/* ①.の処理を行う */) {
+if (session_status() == PHP_SESSION_NONE) {
 	//②セッションを開始する
+	session_start();
 }
 
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (/* ③の処理を書く */){
+// if (/* ③の処理を書く */){
 	//④SESSIONの「error2」に「ログインしてください」と設定する。
 	//⑤ログイン画面へ遷移する。
-}
+// }
 
 //⑥データベースへ接続し、接続情報を変数に保存する
 
@@ -41,9 +42,15 @@ function getId($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
+	$sql = "SELECT* FROM books WHERE :id";
+	$stmt = $con->prepare($sql);
+	$stmt->execute(['id'=> $id]);
 
+var_drump($sql);
 	//⑫実行した結果から1レコード取得し、returnで値を返す。
+	return $stmt->fetch(PDO::FECH_ASSOC);
 }
+
 
 ?>
 <!DOCTYPE html>
@@ -98,10 +105,8 @@ function getId($id,$con){
 					<?php 
 					/*
 					 * ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
-					 */
-    				foreach(/* ⑮の処理を書く */){
-    					// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
-					?>
+					 */	// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。
+    				foreach($books $id): ?>
 					<input type="hidden" value="<?php echo	/* ⑰ ⑯の戻り値からidを取り出し、設定する */;?>" name="books[]">
 					<tr>
 						<td><?php echo	/* ⑱ ⑯の戻り値からidを取り出し、表示する */;?></td>
