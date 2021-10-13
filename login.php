@@ -1,3 +1,4 @@
+<!-- kimminwool -->
 <?php
 /* 
 【機能】
