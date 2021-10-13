@@ -70,6 +70,7 @@ while($row=$st->fetch() ){
 </div>
 
 <!-- メニュー -->
+// .
 <div id="menu">
 	<nav>
 		<ul>
