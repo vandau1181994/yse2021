@@ -113,6 +113,8 @@ function fetchBooks($ids, $pdo){
             // if(/* ⑬の処理を書く */){
             //  //⑭SESSIONの「error」の中身を表示する。
             // }
+			// a
+			
             ?>
             </div>
             <div id="center">
@@ -152,4 +154,5 @@ function fetchBooks($ids, $pdo){
         <footer>株式会社アクロイト</footer>
     </div>
 </body>
+
 </html>
