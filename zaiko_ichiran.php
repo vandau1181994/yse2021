@@ -69,7 +69,7 @@ $statement = $pdo->query($sql);
 				 * 設定されていた場合はif文の中に入る。
 				 */ 
 				// if(/* ⑧の処理を書く */){
-				// 	//⑨SESSIONの「success」の中身を表示する。
+				// 	//⑨SESSIONの「success」の中身を表示する
 				// }
 				?>
 			</div>
