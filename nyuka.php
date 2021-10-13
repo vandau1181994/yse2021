@@ -134,7 +134,7 @@ function getId($id,$con){
 					<tr>
 						<td><?php echo	/* ⑱ ⑯の戻り値からidを取り出し、表示する */ $selectedBook["id"];?></td>
 						<td><?php echo	/* ⑲ ⑯の戻り値からtitleを取り出し、表示する */$selectedBook["title"];?></td>
-						<td><?php echo	/* ⑳ ⑯の戻り値からauthorを取り出し、表示する */$selectedBook["author"];?></td>
+						<td><?php echo	/* ⑳ ⑯の戻り値からauthorを取り出し、表示する. */$selectedBook["author"];?></td>
 						<td><?php echo	/* ㉑ ⑯の戻り値からsalesDateを取り出し、表示する */$selectedBook["salesDate"];?></td>
 						<td><?php echo	/* ㉒ ⑯の戻り値からpriceを取り出し、表示する */$selectedBook["price"];?></td>
 						<td><?php echo	/* ㉓ ⑯の戻り値からstockを取り出し、表示する */$selectedBook["stock"];?></td>
