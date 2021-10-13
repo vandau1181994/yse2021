@@ -1,155 +1,144 @@
 <?php
 /* 
 【機能】
-書籍の入荷数を指定する。確定ボタンを押すことで確認画面へ入荷個数を引き継いで遷移す
-る。なお、在庫数は各書籍100冊を最大在庫数とする。
+書籍テーブルより書籍情報を取得し、画面に表示する。
+商品をチェックし、ボタンを押すことで入荷、出荷が行える。
+ログアウトボタン押下時に、セッション情報を削除しログイン画面に遷移する。
 【エラー一覧（エラー表示：発生条件）】
-このフィールドを入力して下さい(吹き出し)：入荷個数が未入力
-最大在庫数を超える数は入力できません：現在の在庫数と入荷の個数を足した値が最大在庫数を超えている
-数値以外が入力されています：入力された値に数字以外の文字が含まれている
+入荷する商品が選択されていません：商品が一つも選択されていない状態で入荷ボタンを押す
+出荷する商品が選択されていません：商品が一つも選択されていない状態で出荷ボタンを押す.
 */
 
-/*
- * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
- * 一致した場合はif文の中に入る。
- */
-if (session_status() === PHP_SESSION_NONE) {
-    //②セッションを開始する
-    session_start();
+//①セッションを開始する
+session_start();
+
+// ②SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
+if ($_SESSION["login"] == false){
+// 	// ③SESSIONの「error2」に「ログインしてください」と設定する。
+	$_SESSION["error2"] = "ログインしてください";
+// 	// ④ログイン画面へ遷移する。
+	header("Location: login.php");
 }
 
-//③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (isset($_SESSION['login']) && $_SESSION['login']){
-    //④SESSIONの「error2」に「ログインしてください」と設定する。
-    $_SESSION['error2'] = 'ログインしてください';
-    //⑤ログイン画面へ遷移する。
-    header('Location: login.php');
+//⑤データベースへ接続し、接続情報を変数に保存する
+$dbname = "zaiko2021_yse";
+$host = "localhost";
+$charset = "UTF8";
+$user =  "zaiko2021_yse";
+$password = "2021zaiko";
+$option = [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION];
+
+//⑥データベースで使用する文字コードを「UTF8」にする
+$dsn = "mysql:dbname={$dbname};host={$host};charset={$charset}";
+
+//⑦書籍テーブルから書籍情報を取得するSQLを実行する。また実行結果を変数に保存する
+//データベースをPDOで接続してみる
+try
+{
+	$pdo = new PDO($dsn,$user,$password,$option);
+	// echo "SUCCESS";
+}catch(PDOException $e)
+{
+	die($e->getMessage());
 }
+//SQL
+$sql = "SELECT * FROM books";
 
-//⑥データベースへ接続し、接続情報を変数に保存する
-//⑦データベースで使用する文字コードを「UTF8」にする
-$db_name = 'zaiko2021_yse';
-$db_host = 'localhost';
-$db_port = '3306';
-$db_user = 'zaiko2021_yse';
-$db_password = '2021zaiko';
-
-$dsn = "mysql:dbname={$db_name};host={$db_host};charset=utf8;port={$db_port}";
-try {
-    $pdo = new PDO($dsn, $db_user, $db_password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
-} catch (PDOException $e) {
-    echo "接続失敗: " . $e->getMessage();
-    exit;
-}
-
-//⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
-if(empty($_POST['books'])){
-    //⑨SESSIONの「success」に「入荷する商品が選択されていません」と設定する。
-    $_SESSION['success'] = '入荷する商品が選択されていません';
-    //⑩在庫一覧画面へ遷移する。
-    header('Location: zaiko_ichiran.php');
-    exit;
-}
-
-$books = fetchBooks($_POST['books'], $pdo);
-
-function getId($id,$con){
-    /* 
-     * ⑪書籍を取得するSQLを作成する実行する。
-     * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
-     * SQLの実行結果を変数に保存する。
-     */
-    $sql = "SELECT * FROM books WHERE id = {$id}";
-    $stmt = $con->query($sql);
-
-    //⑫実行した結果から1レコード取得し、returnで値を返す。
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
-
-function fetchBooks($ids, $pdo){
-    $id = implode(',', $ids);
-    if (!$id) return;
-    $condition = "id in ($id)";
-    $sql = "SELECT * FROM books WHERE {$condition}";
-    $stmt = $pdo->query($sql);
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+//SQLを実行する
+$statement = $pdo->query($sql);
 
 ?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>入荷</title>
-    <link rel="stylesheet" href="css/ichiran.css" type="text/css" />
+	<meta charset="UTF-8">
+	<title>書籍一覧</title>
+	<link rel="stylesheet" href="css/ichiran.css" type="text/css" />
 </head>
 <body>
-    <!-- ヘッダ -->
-    <div id="header">
-        <h1>入荷</h1>
-    </div>
+	<div id="header">
+		<h1>書籍一覧</h1>
+	</div>
+	<form action="zaiko_ichiran.php" method="post" id="myform" name="myform">
+		<div id="pagebody">
+			<!-- エラーメッセージ表示 -->
+			<div id="error">
+				<?php
+				/*
+				 * ⑧SESSIONの「success」にメッセージが設定されているかを判定する。
+				 * 設定されていた場合はif文の中に入る。
+				 */
+				
+				 if(isset($_SESSION["success"])){
+				// // 	//⑨SESSIONの「success」の中身を表示する。
+				 	echo "<p>".@$_SESSION["success"]."</p>";
+				 	//var_dump($_SESSION["success"]);
+				 }
+				?>
+			</div>
+			
+			<!-- 左メニュー -->
+			<div id="left">
+				<p id="ninsyou_ippan">
+					<?php
+						echo @$_SESSION["account_name"];
+					?><br>
+					<button type="button" id="logout" onclick="location.href='logout.php'">ログアウト</button>
+				</p>
+				<button type="submit" id="btn1" formmethod="POST" name="decision" value="3" formaction="nyuka.php">入荷</button>
 
-    <!-- メニュー -->
-    <div id="menu">
-        <nav>
-            <ul>
-                <li><a href="zaiko_ichiran.php?page=1">書籍一覧</a></li>
-            </ul>
-        </nav>
-    </div>
+				<button type="submit" id="btn1" formmethod="POST" name="decision" value="4" formaction="syukka.php">出荷</button>
+			</div>
+			<!-- 中央表示 -->
+			<div id="center">
 
-    <form action="nyuka_kakunin.php" method="post">
-        <div id="pagebody">
-            <!-- エラーメッセージ -->
-            <div id="error">
-            <?php
-            /*
-             * ⑬SESSIONの「error」にメッセージが設定されているかを判定する。
-             * 設定されていた場合はif文の中に入る。
-             */ 
-            // if(/* ⑬の処理を書く */){
-            //  //⑭SESSIONの「error」の中身を表示する。
-            // }
-            ?>
-            </div>
-            <div id="center">
-                <table>
-                    <thead>
-                        <tr>
-                            <th id="id">ID</th>
-                            <th id="book_name">書籍名</th>
-                            <th id="author">著者名</th>
-                            <th id="salesDate">発売日</th>
-                            <th id="itemPrice">金額(円)</th>
-                            <th id="stock">在庫数</th>
-                            <th id="in">入荷数</th>
-                        </tr>
-                    </thead>
-                     <!-- ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
-                     ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。 -->
-                    <?php foreach($books as $book): ?>
-                    <input type="hidden" value="<?= $book['id'] ?>" name="books[]">
-                    <tr>
-                        <td><?= $book['id'] ?></td>
-                        <td><?= $book['title'] ?></td>
-                        <td><?= $book['author'] ?></td>
-                        <td><?= $book['salesDate'] ?></td>
-                        <td><?= $book['price'] ?></td>
-                        <td><?= $book['stock'] ?></td>
-                        <td><input type='text' name='stock[]' size='5' maxlength='11' required></td>
-                    </tr>
-                    <?php endforeach ?>
-                </table>
-                <button type="submit" id="kakutei" formmethod="POST" name="decision" value="1">確定</button>
-            </div>
-        </div>
-    </form>
-    <!-- フッター -->
-    <div id="footer">
-        <footer>株式会社アクロイト</footer>
-    </div>
+				<!-- 書籍一覧の表示 -->
+				<table>
+					<thead>
+						<tr>
+							<th id="check"></th>
+							<th id="id">ID</th>
+							<th id="book_name">書籍名</th>
+							<th id="author">著者名</th>
+							<th id="salesDate">発売日</th>
+							<th id="itemPrice">金額</th>
+							<th id="stock">在庫数</th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
+						while($books= $statement->fetch(PDO::FETCH_ASSOC)){
+							//⑪extract変数を使用し、1レコードのデータを渡す。
+							$book = array(
+								"id" => $books["id"],
+								"title" => $books["title"],
+								"author" => $books["author"],
+								"date" => $books["salesDate"],
+								"price" => $books["price"],
+								"stock" => $books["stock"]
+							);
+							extract($book);
+
+							echo "<tr id='book'>";
+							echo "<td id='check'><input type='checkbox' name='books[]' value=".$books["id"]."></td>";
+							echo "<td id='id'>".$id."</td>";
+							echo "<td id='title'>".$title."</td>";
+							echo "<td id='author'>".$author."</td>";
+							echo "<td id='date'>".$date."</td>";
+							echo "<td id='price'>".$price."</td>";
+							echo "<td id='stock'>".$stock."</td>";
+
+							echo "</tr>";
+						}
+						?>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</form>
+	<div id="footer">
+		<footer>株式会社アクロイト</footer>
+	</div>
 </body>
 </html>
