@@ -69,7 +69,7 @@ if (!empty($_SESSION['error2'])) {
     //⑬SESSIONの「error2」の値をエラーメッセージを入れる変数に設定する。
     //⑭SESSIONの「error2」にnullを入れる。
     $_SESSION['error2']= null;
-
+// aa
 }
 ?>
 <!DOCTYPE html>
