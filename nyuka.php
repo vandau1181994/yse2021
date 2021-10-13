@@ -32,7 +32,7 @@ if ($_SESSION["login"] ==False){
 
 //⑦データベースで使用する文字コードを「UTF8」にする
 
- $pdo = new PDO("mysql:host=localhost;dbname=zaiko2019_yse;charset=utf8;","zaiko2019", "2019zaiko" );
+ $pdo = new PDO("mysql:host=localhost;dbname=zaiko2021_yse;charset=utf8;","zaiko2021", "2021zaiko" );
     $st = $pdo->query("SELECT * FROM books ");
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
 if(!@($_POST["books"])){
