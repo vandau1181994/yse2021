@@ -55,7 +55,7 @@ if ($_SESSION["login"] ==False){
 //⑧データベースへ接続し、接続情報を変数に保存する
 
 //⑨データベースで使用する文字コードを「UTF8」にする
-$con = mysqli_connect("localhost" , "zaiko2019" , "2019zaiko" , "zaiko2019_yse");
+$con = mysqli_connect("localhost" , "zaiko2021" , "2021zaiko" , "zaiko2021_yse");
 	mysqli_set_charset($con,"UTF8");
 //⑩書籍数をカウントするための変数を宣言し、値を0で初期化する
 //⑪POSTの「books」から値を取得し、変数に設定する。
