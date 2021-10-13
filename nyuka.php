@@ -13,7 +13,6 @@
  * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
  * 一致した場合はif文の中に入る。
  */
-<<<<<<< HEAD
 if (session_status() === PHP_SESSION_NONE) {
 	//②セッションを開始する
 	session_start();
@@ -26,20 +25,6 @@ if (isset($_SESSION['login']) && $_SESSION['login']){
 	//⑤ログイン画面へ遷移する。
 	header('Location: login.php');
 }
-=======
-// if (/* ①.の処理を行う */) {
-	if (session_status() == PHP_SESSION_NONE) {
-		//②セッションを開始する
-		session_start();
-	}
-
-
-//③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-// if (/* ③の処理を書く */){
-// 	//④SESSIONの「error2」に「ログインしてください」と設定する。
-// 	//⑤ログイン画面へ遷移する。
-// }
->>>>>>> a9e579d3bc28ffc2618562d722444b4fb9d7fe18
 
 //⑥データベースへ接続し、接続情報を変数に保存する
 //⑦データベースで使用する文字コードを「UTF8」にする
@@ -59,7 +44,6 @@ try {
 	exit;
 }
 
-<<<<<<< HEAD
 //⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
 if(empty($_POST['books'])){
 	//⑨SESSIONの「success」に「入荷する商品が選択されていません」と設定する。
@@ -70,25 +54,13 @@ if(empty($_POST['books'])){
 }
 
 $books = fetchBooks($_POST['books'], $pdo);
-=======
 
-
-//⑧POSTの「books」の値が空か判定する。空の場合はif文の中に入る。
-
-	//⑨SESSIONの「success」に「入荷する商品が選択されていません」と設定する。
-
-	//⑩在庫一覧画面へ遷移する。
-	
->>>>>>> a9e579d3bc28ffc2618562d722444b4fb9d7fe18
-
-//var_dump($_POST);
 function getId($id,$con){
 	/* 
 	 * ⑪書籍を取得するSQLを作成する実行する。
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-<<<<<<< HEAD
 	$sql = "SELECT * FROM books WHERE id = {$id}";
 	$stmt = $con->query($sql);
 
@@ -104,14 +76,6 @@ function fetchBooks($ids, $pdo){
 	$stmt = $pdo->query($sql);
 
 	return $stmt->fetchAll(PDO::FETCH_ASSOC);
-=======
-	$id = htmlspecialchars($id);
-	$sql = "SELECT * FROM books WHERE id = {$id} ";
-	$statement = $con->query($sql);
-	//⑫実行した結果から1レコード取得し、returnで値を返す。
-	$items =  $statement->fetch(PDO::FETCH_ASSOC);
-	return $items;
->>>>>>> a9e579d3bc28ffc2618562d722444b4fb9d7fe18
 }
 
 ?>
@@ -164,7 +128,6 @@ function fetchBooks($ids, $pdo){
 							<th id="in">入荷数</th>
 						</tr>
 					</thead>
-<<<<<<< HEAD
 					 <!-- ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
     				 ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。 -->
     				<?php foreach($books as $book): ?>
@@ -176,26 +139,6 @@ function fetchBooks($ids, $pdo){
 						<td><?= $book['salesDate'] ?></td>
 						<td><?= $book['price'] ?></td>
 						<td><?= $book['stock'] ?></td>
-=======
-					<?php 
-					// /*
-					//  * ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
-					//  */
-					$ids = $_POST["books"];
-    				 foreach($ids as $id):
-    				// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。	
-					$selectedBook = getId($id,$pdo);
-					
-					?>
-					<input type="hidden" value=" <?php echo	/* ⑰ ⑯の戻り値からidを取り出し、設定する */$selectedBook["id"];?>" name="books[]">
-					<tr>
-						<td><?php echo	/* ⑱ ⑯の戻り値からidを取り出し、表示する */ $selectedBook["id"];?></td>
-						<td><?php echo	/* ⑲ ⑯の戻り値からtitleを取り出し、表示する */$selectedBook["title"];?></td>
-						<td><?php echo	/* ⑳ ⑯の戻り値からauthorを取り出し、表示する */$selectedBook["author"];?></td>
-						<td><?php echo	/* ㉑ ⑯の戻り値からsalesDateを取り出し、表示する */$selectedBook["salesDate"];?></td>
-						<td><?php echo	/* ㉒ ⑯の戻り値からpriceを取り出し、表示する */$selectedBook["price"];?></td>
-						<td><?php echo	/* ㉓ ⑯の戻り値からstockを取り出し、表示する */$selectedBook["stock"];?></td>
->>>>>>> a9e579d3bc28ffc2618562d722444b4fb9d7fe18
 						<td><input type='text' name='stock[]' size='5' maxlength='11' required></td>
 					</tr>
 					<?php endforeach ?>
