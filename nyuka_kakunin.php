@@ -30,7 +30,9 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
-}
+	$sql = "UPDATE books SET stock=$total WHERE id = $id";
+	   return $result = $con->query($sql);
+
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
 // if (/* ⑤の処理を書く */){
