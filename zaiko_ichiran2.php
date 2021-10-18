@@ -6,27 +6,27 @@
 ログアウトボタン押下時に、セッション情報を削除しログイン画面に遷移する。
 【エラー一覧（エラー表示：発生条件）】
 入荷する商品が選択されていません：商品が一つも選択されていない状態で入荷ボタンを押す
-出荷する商品が選択されていません：商品が一つも選択されていない状態で出荷ボタンを押す
+出荷する商品が選択されていません：商品が一つも選択されていない状態で出荷ボタンを押す.
 */
 
 //①セッションを開始する
 session_start();
+
 // ②SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-// if (/* ②の処理を書く */){
-// 	//③SESSIONの「error2」に「ログインしてください」と設定する。
-// 	//④ログイン画面へ遷移する。
-// }
+if ($_SESSION["login"] == false){
+// 	// ③SESSIONの「error2」に「ログインしてください」と設定する。
+	$_SESSION["error2"] = "ログインしてください";
+// 	// ④ログイン画面へ遷移する。
+	header("Location: login.php");
+}
 
 //⑤データベースへ接続し、接続情報を変数に保存する
-
 $dbname = "zaiko2021_yse";
 $host = "localhost";
-$db_port = "3366";
 $charset = "UTF8";
 $user =  "zaiko2021_yse";
 $password = "2021zaiko";
 $option = [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION];
-
 
 //⑥データベースで使用する文字コードを「UTF8」にする
 $dsn = "mysql:dbname={$dbname};host={$host};charset={$charset}";
@@ -67,10 +67,13 @@ $statement = $pdo->query($sql);
 				/*
 				 * ⑧SESSIONの「success」にメッセージが設定されているかを判定する。
 				 * 設定されていた場合はif文の中に入る。
-				 */ 
-				// if(/* ⑧の処理を書く */){
-				// 	//⑨SESSIONの「success」の中身を表示する。
-				// }
+				 */
+				
+				 if(isset($_SESSION["success"])){
+				// // 	//⑨SESSIONの「success」の中身を表示する。
+				 	echo "<p>".@$_SESSION["success"]."</p>";
+				 	//var_dump($_SESSION["success"]);
+				 }
 				?>
 			</div>
 			
@@ -105,23 +108,30 @@ $statement = $pdo->query($sql);
 					<tbody>
 						<?php
 						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
-						while($books= $statement->fetch(PDO::FETCH_ASSOC)) :?>
-
+						while($books= $statement->fetch(PDO::FETCH_ASSOC)){
 							//⑪extract変数を使用し、1レコードのデータを渡す。
-						<tr id = "book">
+							$book = array(
+								"id" => $books["id"],
+								"title" => $books["title"],
+								"author" => $books["author"],
+								"date" => $books["salesDate"],
+								"price" => $books["price"],
+								"stock" => $books["stock"]
+							);
+							extract($book);
 
-							<tr id='book'>";
-							<td id='check'><input type='checkbox' name='books[]'value="<?=$book['id']?>"></td>
-							<td id='id'><?= $book['id']?></td>";
-							<td id='title'><?$book['title']?></td>";
-							<td id='author'><?=$book['author']?></td>
-							<td id='date'><?=$book['salesDate']?></td>;
-							<td id='price'><?=$book['price']?></td>;
-							<td id='stock'><?=$book['stock']?></td>;
+							echo "<tr id='book'>";
+							echo "<td id='check'><input type='checkbox' name='books[]' value=".$books["id"]."></td>";
+							echo "<td id='id'>".$id."</td>";
+							echo "<td id='title'>".$title."</td>";
+							echo "<td id='author'>".$author."</td>";
+							echo "<td id='date'>".$date."</td>";
+							echo "<td id='price'>".$price."</td>";
+							echo "<td id='stock'>".$stock."</td>";
 
-						</tr>
-						
-						<?php endwhile ?>
+							echo "</tr>";
+						}
+						?>
 					</tbody>
 				</table>
 			</div>
