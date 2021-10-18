@@ -14,18 +14,22 @@
  * ①session_status()の結果が「PHP_SESSION_NONE」と一致するか判定する。
  * 一致した場合はif文の中に入る。
  */
-// if (/* ①.の処理を行う */) {
-	if (session_status() == PHP_SESSION_NONE) {
-		//②セッションを開始する
-		session_start();
-	}
+if (session_status() == PHP_SESSION_NONE) {
+	//②セッションを開始する
+	session_start();
+}
+
 
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-// if (/* ③の処理を書く */){
-// 	//④SESSIONの「error2」に「ログインしてください」と設定する。
-// 	//⑤ログイン画面へ遷移する。
-// }
+
+
+	//④SESSIONの「error2」に「ログインしてください」と設定する。
+
+	//⑤ログイン画面へ遷移する。
+
+	
+
 
 //⑥データベースへ接続し、接続情報を変数に保存する
 $dbname = "zaiko2021_yse";
@@ -58,7 +62,6 @@ if(empty($_POST["books"])){
 {
 	unset($_SESSION["success"]);
 }
-
 //var_dump($_POST);
 function getId($id,$con){
 	/* 
@@ -97,7 +100,7 @@ function getId($id,$con){
 		</nav>
 	</div>
 
-	<form action="nyuka_kakunin.php" method="post">
+	<form action="nyuka_kakunin.php" method="post"> 
 		<div id="pagebody">
 			<!-- エラーメッセージ -->
 			<div id="error">
@@ -106,6 +109,9 @@ function getId($id,$con){
 			 * ⑬SESSIONの「error」にメッセージが設定されているかを判定する。
 			 * 設定されていた場合はif文の中に入る。
 			 */ 
+			//var_dump($_POST["books"]);
+			
+			
 			// if(/* ⑬の処理を書く */){
 			// 	//⑭SESSIONの「error」の中身を表示する。
 			// }
@@ -129,6 +135,7 @@ function getId($id,$con){
 					//  * ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
 					//  */
 					$ids = $_POST["books"];
+					//var_dump($_POST["books"]);
     				 foreach($ids as $id):
     				// ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。	
 					$selectedBook = getId($id,$pdo);
