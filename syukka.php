@@ -18,7 +18,7 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 //③SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (empty($_SESSION['login'])){
+if (empty($_SESSION['login'])) {
 	$_SESSION['error2'] = 'ログインしてください';
 	header('Location: login.php');
 }
@@ -48,7 +48,11 @@ try {
 // 	//⑨SESSIONの「success」に「出荷する商品が選択されていません」と設定する。
 // 	//⑩在庫一覧画面へ遷移する。
 // }
-
+if (!@($_POST["books"])) {
+	$_SESSION["success"] = "出荷する商品が選択されていません";
+	header("Location: zaiko_ichiran.php");
+	exit;
+}
 $books = fetchBooks($_POST['books'], $pdo);
 
 function getId($id, $con)
