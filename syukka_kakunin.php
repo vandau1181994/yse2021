@@ -3,12 +3,12 @@
 【機能】
 出荷で入力された個数を表示する。出荷を実行した場合は対象の書籍の在庫数から出荷数を
 引いた数でデータベースの書籍の在庫数を更新する。
-
 【エラー一覧（エラー表示：発生条件）】
 なし
 */
 
 //①セッションを開始する
+session_start();
 
 function getByid($id,$con){
 	/* 
@@ -16,8 +16,13 @@ function getByid($id,$con){
 	 * その際にWHERE句でメソッドの引数の$idに一致する書籍のみ取得する。
 	 * SQLの実行結果を変数に保存する。
 	 */
-
+	$sql= "select * from books where id = {id}";
+		
+    $pdo = new PDO ($dsn,$user,$password,$option);
+    $stmt = "$con->query($sql)";
 	//③実行した結果から1レコード取得し、returnで値を返す。
+	$items =  $statement->fetch(PDO::FETCH_ASSOC);
+	return $items;
 }
 
 function updateByid($id,$con,$total){
@@ -26,21 +31,50 @@ function updateByid($id,$con,$total){
 	 * 引数で受け取った$totalの値で在庫数を上書く。
 	 * その際にWHERE句でメソッドの引数に$idに一致する書籍のみ取得する。
 	 */
+//example
+	// $sql = "UPDATE items books 
+	// title = :title,
+	// price = :price,
+	// stock = :stock
+	// WHERE id = :id;";
+	// $stmt = $pdo->prepare($sql);
+	// return $stmt->execute($data);
+	$id = htmlspecialchars($id);
+	// $total
+	$sql = "UPDATE books set stock = :stock where id = :id";
+	$sql = "SELECT * FROM books WHERE id = {$id} ";
+	$stmt= "$con->prepare($sql)";
+	return $stmt->execute();
 }
 
 //⑤SESSIONの「login」フラグがfalseか判定する。「login」フラグがfalseの場合はif文の中に入る。
-if (/* ⑤の処理を書く */){
+if (/* ⑤の処理を書く */$_SESSION["login"] == false){
 	//⑥SESSIONの「error2」に「ログインしてください」と設定する。
+	($_SESSION["login"] == error2);
 	//⑦ログイン画面へ遷移する。
+	$dbname = "zaiko2021_yse";
+    $host = "localhost";
+    $charset = "UTF8";
+    $user =  "zaiko2021_yse";
+    $password = "2021zaiko";
+    $option = [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION];
 }
 
 //⑧データベースへ接続し、接続情報を変数に保存する
+    $dbname = "zaiko2021_yse";
+    $host = "localhost";
+    $charset = "UTF8";
+    $user =  "zaiko2021_yse";
+    $password = "2021zaiko";
+    $option = [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION];
 
 //⑨データベースで使用する文字コードを「UTF8」にする
+    $dsn = "mysql:dbname={$dbname};host={$host};charset={$charset}";
 
 //⑩書籍数をカウントするための変数を宣言し、値を0で初期化する
-
+    $count =0;
 //⑪POSTの「books」から値を取得し、変数に設定する。
+    $sql = "SELECT * FROM books where id={POST}";
 foreach(/* ⑪の処理を書く */){
 	/*
 	 * ⑫POSTの「stock」について⑩の変数の値を使用して値を取り出す。
@@ -65,6 +99,7 @@ foreach(/* ⑪の処理を書く */){
 	}
 	
 	//㉒ ⑩で宣言した変数をインクリメントで値を1増やす。
+	
 }
 
 /*
@@ -88,15 +123,15 @@ if(/* ㉓の処理を書く */){
 ?>
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>出荷確認</title>
-<link rel="stylesheet" href="css/ichiran.css" type="text/css" />
+<head> 
+	   <meta charset="UTF-8">
+       <title>出荷確認</title>
+       <link rel="stylesheet" href="css/ichiran.css" type="text/css" />
 </head>
 <body>
-<div id="header">
-	<h1>出荷確認</h1>
-</div>
+       <div id="header">
+	      <h1>出荷確認</h1>
+       </div>
 <form action="syukka_kakunin.php" method="post" id="test">
 	<div id="pagebody">
 		<div id="center">
@@ -111,21 +146,29 @@ if(/* ㉓の処理を書く */){
 				<tbody>
 					<?php 
 					//㉜書籍数をカウントするための変数を宣言し、値を0で初期化する。
+					$count = 0;
 
 					//㉝POSTの「books」から値を取得し、変数に設定する。
-					foreach(/* ㉝の処理を書く */){
+					$ids = $_POST["books"];
+					foreach(/* ㉝の処理を書く */ $ids as $id){
 						//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
+						$selectBook = geetId($id,$pdo);
 					?>
 					<tr>
-						<td><?php echo	/* ㉟ ㉞で取得した書籍情報からtitleを表示する。 */;?></td>
-						<td><?php echo	/* ㊱ ㉞で取得した書籍情報からstockを表示する。 */;?></td>
-						<td><?php echo	/* ㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 */;?></td>
+						<td><?php echo	/* ㉟ ㉞で取得した書籍情報からtitleを表示する。 */
+						$selectBook["title"];?></td>
+						<td><?php echo	/* ㊱ ㉞で取得した書籍情報からstockを表示する。 */
+						$selectBook["stock"];?></td>
+						<td id="post"><?php echo	/* ㊲ POSTの「stock」に設定されている値を㉜の変数を使用して呼び出す。 */
+						$selectBook["stock"];?></td>
 					</tr>
 					<input type="hidden" name="books[]" value="<?php echo /* ㊳ ㉝で取得した値を設定する */;?>">
 					<input type="hidden" name="stock[]" value='<?php echo /* ㊴「POSTの「stock」に設定されている値を㉜の変数を使用して設定する。 */;?>'>
 					<?php
 						//㊵ ㉜で宣言した変数をインクリメントで値を1増やす。
-					}
+						echo "<h3>Postdecrement</h3>";
+						$a = 1;
+						echo "increment value by 1" . $a-- . "<br />\n";
 					?>
 				</tbody>
 			</table>
@@ -140,8 +183,8 @@ if(/* ㉓の処理を書く */){
 		</div>
 	</div>
 </form>
-<div id="footer">
-	<footer>株式会社アクロイト</footer>
-</div>
+    <div id="footer">
+	    <footer>株式会社アクロイト</footer>
+    </div>
 </body>
 </html>
