@@ -155,7 +155,7 @@ if(isset($_POST['add'])){
 					</thead>
 					<tbody>
 						<?php
-						//㉜書籍数をカウントするための変数を宣言し、値を0で初期化する。
+						//㉜書籍数をカウントするための変数を宣言し、値を0で初期化する
                           $count=0;
 						//㉝POSTの「books」から値を取得し、変数に設定する。
 						foreach($_POST['books']as $book_id){
