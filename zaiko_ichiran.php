@@ -107,7 +107,7 @@ $statement = $pdo->query($sql);
 					</thead>
 					<tbody>
 						<?php
-						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する。
+						//⑩SQLの実行結果の変数から1レコードのデータを取り出す。レコードがない場合はループを終了する
 						while($books= $statement->fetch(PDO::FETCH_ASSOC)){
 							//⑪extract変数を使用し、1レコードのデータを渡す。
 							$book = array(
