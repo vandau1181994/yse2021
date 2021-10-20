@@ -112,6 +112,7 @@ $statement = $pdo->query($sql);
 							//⑪extract変数を使用し、1レコードのデータを渡す。
 							$book = array(
 								"id" => $books["id"],
+								
 								"title" => $books["title"],
 								"author" => $books["author"],
 								"date" => $books["salesDate"],
