@@ -170,7 +170,7 @@ if(isset($_POST['add'])){
 						<input type="hidden" name="books[]" value="<?php echo $book['id']?>">
 						<input type="hidden" name="stock[]" value='<?php echo $_POST['stock'][$count] ;?>'>
 						<?php
-							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす
+							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす..
 							$count++;
 						}
 						?>
