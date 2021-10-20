@@ -130,7 +130,7 @@ function fetchBooks($ids, $pdo)
 							<th id="in">出荷数</th>
 						</tr>
 					</thead>
-					<!-- ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。a
+					<!-- ⑮POSTの「books」から一つずつ値を取り出し、変数に保存する。
     				 ⑯「getId」関数を呼び出し、変数に戻り値を入れる。その際引数に⑮の処理で取得した値と⑥のDBの接続情報を渡す。 -->
 					<?php foreach ($books as $book) : ?>
 						<input type="hidden" value="<?= $book['id'] ?>" name="books[]">
