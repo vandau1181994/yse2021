@@ -1,4 +1,3 @@
-
 <?php
 /*
 【機能】
@@ -28,7 +27,7 @@ $password="";
 	 * ③名前とパスワードが両方とも入力されているかを判定する。
 	 * 入力されていた場合はif文の中の処理を行う。
 	 */
-	 if (!empty($_POST['name'])&&!empty($_POST['pass'])) {
+	 if (!empty($_POST['name'])&& !empty($_POST['pass'])) {
 		//④名前とパスワードにPOSTで送られてきた名前とパスワードを設定する.....
 		$name=$_POST['name'];
 		$password=$_POST['pass'];
@@ -43,7 +42,7 @@ $password="";
  if ($name&&$password) {
 // 	//⑧名前に「yse」、パスワードに「2021」と設定されているか確認する。設定されていた場合はif文の中に入る
 
-	if ($name='yse'&&$password=2021){
+	if ($name=='yse'&&$password==2021){
 // 		//⑨SESSIONに名前を設定し、SESSIONの「login」フラグをtrueにする
  $_SESSION['login']=true;
 // 		//⑩在庫一覧画面へ遷移する
