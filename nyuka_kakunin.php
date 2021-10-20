@@ -9,11 +9,6 @@
 
 //①セッションを開始する
 session_start();
-if(!isset($_SESSION["user"])||$_SESSION["login"]==false){
-	$_SESSION["error2"]= "ログインしてください";
-	header("Location: login.php");
-	exit;
-}
 
 function getByid($id,$con){
 	/* 
@@ -161,39 +156,22 @@ if(isset($_POST['add'])){
 					<tbody>
 						<?php
 						//㉜書籍数をカウントするための変数を宣言し、値を0で初期化する。
-<<<<<<< HEAD
-						$index = 0; 
-						//㉝POSTの「books」から値を取得し、変数に設定する。
-						foreach($_POST['books'] as  $book_id){
-							//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
-							$book = getByid($book_id, $pdo);
-						?>
-						<tr>
-							<td><?php echo $book['title'];?></td>
-							<td><?php echo $book['stock'];?></td>
-							<td><?php echo $_POST['stock'][$index];?></td>
-=======
                           $count=0;
 						//㉝POSTの「books」から値を取得し、変数に設定する。
 						foreach($_POST['books']as $book_id){
-							//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す。
+							//㉞「getByid」関数を呼び出し、変数に戻り値を入れる。その際引数に㉜の処理で取得した値と⑧のDBの接続情報を渡す
 							$book = getByid($book_id,$pdo);
 						?>
 						<tr>
 							<td><?php echo	$book['title'];?></td>
 							<td><?php echo	$book['stock'];?></td>
 							<td><?php echo	$_POST['stock'][$count]?></td>
->>>>>>> 0af032f519715638a499220c50a424bfa3c3e037
 						</tr>
 						<input type="hidden" name="books[]" value="<?php echo $book['id']?>">
 						<input type="hidden" name="stock[]" value='<?php echo $_POST['stock'][$count] ;?>'>
 						<?php
-							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす。
-<<<<<<< HEAD
-							$index++;
-=======
+							//㊴ ㉜で宣言した変数をインクリメントで値を1増やす..
 							$count++;
->>>>>>> 0af032f519715638a499220c50a424bfa3c3e037
 						}
 						?>
 					</tbody>
