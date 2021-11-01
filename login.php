@@ -45,6 +45,14 @@ if (isset($_POST['decision']) && $_POST['decision'] == 1) {
 	// }
 
 
+	
+	// if (/* ③の処理を書く */) {
+	// 	//④名前とパスワードにPOSTで送られてきた名前とパスワードを設定する
+	// } else {
+	// 	//⑤名前かパスワードが入力されていない場合は、「名前かパスワードが未入力です」という文言をメッセージを入れる変数に設定する
+	// }
+
+
 //⑦名前が入力されているか判定する。入力されていた場合はif文の中に入る
  if (!empty($name)) {
  $userAdmin = "yse";
@@ -57,7 +65,7 @@ if (isset($_POST['decision']) && $_POST['decision'] == 1) {
 	}
 	else{
 		$msg = "IDまたはパスワードが異なっています";
-	}
+
  
 
 // 	//⑧名前に「yse」、パスワードに「2021」と設定されているか確認する。設定されていた場合はif文の中に入る
@@ -80,6 +88,11 @@ if (isset($_POST['decision']) && $_POST['decision'] == 1) {
 	   $_SESSION['error2'] = null;
     }
  }
+if(isset($_SESSION['error2'])){
+	$errormsg = $_SESSION['error2'];
+	$_SESSION['error2'] = null;
+}
+}
 ?>
 <!DOCTYPE html>
 <html lang="ja">
