@@ -18,8 +18,10 @@ if ($_SESSION["login"] == false){
 	$_SESSION["error2"] = "ログインしてください";
 // 	// ④ログイン画面へ遷移する。
 	header("Location: login.php");
-}
+	exit;
 
+}
+$_SESSION["account_name"] = $_SESSION["user"];
 //⑤データベースへ接続し、接続情報を変数に保存する
 $dbname = "zaiko2021_yse";
 $host = "localhost";
@@ -72,6 +74,7 @@ $statement = $pdo->query($sql);
 				 if(isset($_SESSION["success"])){
 				// // 	//⑨SESSIONの「success」の中身を表示する。
 				 	echo "<p>".@$_SESSION["success"]."</p>";
+					unset($_SESSION["sucsess"]);
 				 	//var_dump($_SESSION["success"]);
 				 }
 				?>
@@ -88,6 +91,11 @@ $statement = $pdo->query($sql);
 				<button type="submit" id="btn1" formmethod="POST" name="decision" value="3" formaction="nyuka.php">入荷</button>
 
 				<button type="submit" id="btn1" formmethod="POST" name="decision" value="4" formaction="syukka.php">出荷</button>
+
+				<button type="submit" id="btn1" formmethod="POST" name="decision" value="5" formaction="new_product.php">新商品追加</button>
+
+				<button type="submit" id="btn1" formmethod="POST" name="decision" value="6" formaction="delete_product.php">商品消除</button>
+
 			</div>
 			<!-- 中央表示 -->
 			<div id="center">
