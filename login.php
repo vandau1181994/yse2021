@@ -81,7 +81,7 @@ if (isset($_POST['decision']) && $_POST['decision'] == 1) {
 // //⑫SESSIONの「error2」に値が入っているか判定する。入っていた場合はif文の中に入る
 // if (/* ⑫の処理を書く */) {
 // 	//⑬SESSIONの「error2」の値をエラーメッセージを入れる変数に設定する。
-// 	//⑭SESSIONの「error2」にnullを入れる。
+// 	//⑭SESSIONの「error2」にnullを入れる
 // }
     if(isset($_SESSION['error2'])){
 	   $errormsg = $_SESSION['error2'];
