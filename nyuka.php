@@ -74,7 +74,6 @@ function getId($id, $con)
 	</div>
 
 	<!-- メニュー -->
-	// .
 	<div id="menu">
 		<nav>
 			<ul>

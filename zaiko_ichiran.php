@@ -18,8 +18,10 @@ if ($_SESSION["login"] == false){
 	$_SESSION["error2"] = "ログインしてください";
 // 	// ④ログイン画面へ遷移する。
 	header("Location: login.php");
-}
+	exit;
 
+}
+$_SESSION["account_name"] = $_SESSION["user"];
 //⑤データベースへ接続し、接続情報を変数に保存する
 $dbname = "zaiko2021_yse";
 $host = "localhost";
@@ -72,6 +74,7 @@ $statement = $pdo->query($sql);
 				 if(isset($_SESSION["success"])){
 				// // 	//⑨SESSIONの「success」の中身を表示する。
 				 	echo "<p>".@$_SESSION["success"]."</p>";
+					unset($_SESSION["sucsess"]);
 				 	//var_dump($_SESSION["success"]);
 				 }
 				?>
