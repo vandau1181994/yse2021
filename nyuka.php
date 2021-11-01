@@ -31,7 +31,7 @@ if ( !isset($_SESSION["user"]) ||$_SESSION["login"]==false){
 	exit;
 }
 
-//⑥データベースへ接続し、接続情報を変数に保存する
+//⑥データベースへ接続し、接続情報を変数に保存す
 $dbname = "zaiko2021_yse";
 $host = "localhost";
 $charset = "UTF8";
