@@ -1,14 +1,20 @@
 <?php
 /* 
 【機能】
-	セッション情報を削除しログイン画面に遷移する
+	セッション情報を削除しログイン画面に遷移する。
 */
-
 //①セッションを開始する。
-session_start();
+
 //②セッションを削除する。
-$_SESSION = array();
-session_destroy();
+
 //③ログイン画面へ遷移する。
-header("Location:login.php");
+session_start();
+
+$_SESSION = array();
+
+session_destroy();
+
+header("location: login.php");
+
+exit;
 ?>
