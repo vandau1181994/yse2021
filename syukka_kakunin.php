@@ -169,7 +169,8 @@ $book_ids = $_POST['books'];
                             <input type="hidden" name="books[]" value="<?= $book_id ?>">
                             <input type="hidden" name="stock[]" value='<?= $stock ?>'>
                         <?php
-                            //㊵ ㉜で宣言した変数をインクリメントで値を1増やす。
+                                //㊵ ㉜で宣言した変数をインクリメントで値を1増やす
+                                
                             $count++;
                         }
                         ?>
